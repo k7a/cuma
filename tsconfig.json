@@ -1,0 +1,45 @@
+{
+    "version": "2.0.3",
+    "compilerOptions": {
+        "target": "ES6",
+        // "lib": [
+        //     "dom",
+        //     "es6"
+        // ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "declaration": false,
+        "noImplicitAny": false,
+        "noEmitOnError": false,
+        "sourceMap": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "experimentalDecorators": true
+        // "noImplicitUseStrict": true
+    },
+    "formatCodeOptions": {
+        "indentSize": 2,
+        "tabSize": 2,
+        "newLineCharacter": "\r\n",
+        "convertTabsToSpaces": true,
+        "insertSpaceAfterCommaDelimiter": true,
+        "insertSpaceAfterSemicolonInForStatements": true,
+        "insertSpaceBeforeAndAfterBinaryOperators": true,
+        "insertSpaceAfterKeywordsInControlFlowStatements": true,
+        "insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
+        "insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
+        "placeOpenBraceOnNewLineForFunctions": true,
+        "placeOpenBraceOnNewLineForControlBlocks": true
+    },
+    "compileOnSave": false,
+    "include": [
+        "./src/**/*.ts",
+        "./node_modules/**/*.ts"
+        // "./node_modules/typescript/lib/lib.es6.d.ts"
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
+}

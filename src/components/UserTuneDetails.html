@@ -1,0 +1,208 @@
+<div>
+    <user-tune-details-tool-bar></user-tune-details-tool-bar>
+    <button class="ui button" @click.stop="rightSideBar = !rightSideBar">Show RightSidebar</button>
+    <button class="ui button primary" @click.stop="saveMasterData">Save</button>
+    <button class="ui button primary" @click.stop="loadMasterData">Load</button>
+<div>
+  <table class="ui striped fixed sortable celled table">
+    <thead>
+      <tr>
+        <th class="one wide" v-on:click="changeOrder()"></th>
+        <th class="eight wide"
+        v-bind:class="[sortType == 'musicName' ? 'sorted ' + (orderType == 1 ? 'ascending' : 'descending') : '']"
+        v-on:click="changeOrder('musicName')">Music</th>
+        <th
+        v-bind:class="[sortType == 'internalLevel' ? 'sorted ' + (orderType == 1 ? 'ascending' : 'descending') : '']"
+        v-on:click="changeOrder('internalLevel')">Level</th>
+        <th
+        v-bind:class="[sortType == 'score' ? 'sorted ' + (orderType == 1 ? 'ascending' : 'descending') : '']"
+        v-on:click="changeOrder('score')">Score</th>
+        <th
+        v-bind:class="[sortType == 'fullComboState' ? 'sorted ' + (orderType == 1 ? 'ascending' : 'descending') : '']"
+        v-on:click="changeOrder('fullComboState')">Medal</th>
+        <th
+        v-bind:class="[sortType == 'rating' ? 'sorted ' + (orderType == 1 ? 'ascending' : 'descending') : '']"
+        v-on:click="changeOrder('rating')">Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(userTuneDetail, index) in sortAndFilteredUserTuneDetails" v-bind:key="userTuneDetail.id">
+        <td class="right aligned">
+        {{ index + 1 }}
+        </td>
+        <td>
+        <difficulty-label :difficulty="userTuneDetail.tune.difficulty"></difficulty-label>
+        {{ userTuneDetail.musicName }}
+        <i v-if="userTuneDetail.tune.level === undefined" class="orange warning circle icon"></i>
+        </td>
+        <td class="right aligned">
+        {{ userTuneDetail.internalLevel | round(1) || "-" }}
+        </td>
+        <td class="right aligned">
+        {{ userTuneDetail.score }}
+        </td>
+        <td>
+        <full-combo-state-label :full-combo-state="userTuneDetail.fullComboState"></full-combo-state-label>
+        <!--<div class="ui horizontal label"
+        :class="fullComboStateLabelStyle(userTuneDetail.fullComboState)">
+            {{ userTuneDetail.fullComboState.name }}
+        </div>-->
+        </td>
+        <td class="right aligned">
+        {{ userTuneDetail.rating | round(3) || "-" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="ui right vertical sidebar menu" :class="{visible: rightSideBar}">
+    <div class="item">
+      <h4 class="ui horizontal divider header">Sort</h4>
+      <div class="ui form">
+        <div class="inline fields">
+          <div class="field">
+            <select v-model="sortType">
+              <option value="musicName">MusicName</option>
+              <option value="internalLevel">Level</option>
+              <option value="score">Score</option>
+              <option value="rating">Rating</option>
+            </select>
+          </div>
+          <div class="field">
+            <i class="caret icon" :class="[orderType == 1 ? 'up' : 'down']" @click.stop="orderType = orderType * -1"></i>
+          </div>
+        </div>
+      </div>
+      <h4 class="ui horizontal divider header">Difficulty</h4>
+      <div class="ui form">
+        <div class="grouped fields">
+          <div class="field">
+            <div class="ui toggle green checkbox">
+              <input type="checkbox" id="filetr-bas" v-model="filterConditions.difficulty[0]">
+              <label for="filetr-bas">BASIC</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui toggle orange checkbox">
+              <input type="checkbox" id="filetr-adv" v-model="filterConditions.difficulty[1]">
+              <label for="filetr-adv">ADVANCED</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui toggle red checkbox">
+              <input type="checkbox" id="filetr-exp" v-model="filterConditions.difficulty[2]">
+              <label for="filetr-exp">EXPERT</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui toggle violet checkbox">
+              <input type="checkbox" id="filetr-mas" v-model="filterConditions.difficulty[3]">
+              <label for="filetr-mas">MASTER</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="ui horizontal divider header">Level</h4>
+      <div class="ui form">
+        <div class="field">
+          <label>Min</label>
+
+          <div class="ui buttons">
+            <button class="ui icon button" @click.stop="decrementLevelMin()">
+              <i class="minus icon"></i>
+            </button>
+            <button class="ui basic button" style="width: 5em; text-align: right;">
+              {{ filterConditions.levelMin }}
+            </button>
+            <button class="ui right icon button" @click.stop="incrementLevelMin()">
+              <i class="plus icon"></i>
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Max</label>
+
+          <div class="ui buttons">
+            <button class="ui icon button" @click.stop="decrementLevelMax()">
+              <i class="minus icon"></i>
+            </button>
+            <button class="ui basic button" style="width: 5em; text-align: right;">
+              {{ filterConditions.levelMax }}
+            </button>
+            <button class="ui right icon button" @click.stop="incrementLevelMax()">
+              <i class="plus icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="ui horizontal divider header">Medal</h4>
+      <div class="ui form">
+        <div class="grouped fields">
+          <div class="field">
+            <div class="ui toggle grey checkbox">
+              <input type="checkbox" id="filetr-none" v-model="filterConditions.fullComboState[0]">
+              <label for="filetr-none">-</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui toggle orange checkbox">
+              <input type="checkbox" id="filetr-fc" v-model="filterConditions.fullComboState[1]">
+              <label for="filetr-fc">FULL COMBO</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui toggle yellow checkbox">
+              <input type="checkbox" id="filetr-aj" v-model="filterConditions.fullComboState[2]">
+              <label for="filetr-aj">ALL JUSTICE</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui toggle red checkbox">
+              <input type="checkbox" id="filetr-aj" v-model="filterConditions.fullComboState[3]">
+              <label for="filetr-aj">ALL JUSTICE CRITICAL</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="ui horizontal divider header">Score</h4>
+      <div class="ui form">
+        <div class="field">
+          <label>Min</label>
+
+          <div class="ui buttons">
+            <button class="ui icon button" @click.stop="decrementScoreMin()">
+              <i class="minus icon"></i>
+            </button>
+            <button class="ui basic button" style="width: 7em; text-align: right;">
+              {{ filterConditions.scoreMin }}
+            </button>
+            <button class="ui right icon button" @click.stop="incrementScoreMin()">
+              <i class="plus icon"></i>
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Max</label>
+
+          <div class="ui buttons">
+            <button class="ui icon button" @click.stop="decrementScoreMax()">
+              <i class="minus icon"></i>
+            </button>
+            <button class="ui basic button" style="width: 7em; text-align: right;">
+              {{ filterConditions.scoreMax }}
+            </button>
+            <button class="ui right icon button" @click.stop="incrementScoreMax()">
+              <i class="plus icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a class="item" @click.stop="rightSideBar = !rightSideBar">Hide Sidebar</a>
+  </div>
+
+</div>

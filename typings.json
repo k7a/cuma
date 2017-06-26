@@ -1,0 +1,7 @@
+{
+  "name": "cuma",
+  "globalDependencies": {
+    "vue": "github:DefinitelyTyped/DefinitelyTyped/vue/vue.d.ts#3030a4be536b6530c06b80081f1333dc0de4d703",
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#bcd5761826eb567876c197ccc6a87c4d05731054"
+  }
+}

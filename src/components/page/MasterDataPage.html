@@ -1,0 +1,48 @@
+<main>
+  <button class="ui icon primary button" @click.stop="saveJSON">SaveJSON</button>
+  <table class="ui striped structured sortable celled table">
+    <!--<div><button @click.stop="saveJSON">save</button></div>-->
+    <thead>
+      <tr>
+        <th rowspan="2" class="one wide">ID</th>
+        <th rowspan="2" class="eight wide">MusicName</th>
+        <th colspan="2">BASIC</th>
+        <th colspan="2">ADVANCED</th>
+        <th colspan="2">EXPERT</th>
+        <th colspan="2">MASTER</th>
+        <th rowspan="2" class="one wide">Edit</th>
+      </tr>
+      <tr>
+        <th>Lv</th>
+        <th>i-Lv</th>
+        <th>Lv</th>
+        <th>i-Lv</th>
+        <th>Lv</th>
+        <th>i-Lv</th>
+        <th>Lv</th>
+        <th>i-Lv</th>
+      </tr>
+      <!--<tr>
+        <th class="one wide" v-on:click="changeOrder()">ID</th>
+        <th class="eight wide"
+        v-bind:class="[sortType == 'musicName' ? 'sorted ' + (orderType == 1 ? 'ascending' : 'descending') : '']"
+        v-on:click="changeOrder('musicName')">Musicname</th>
+        <th
+        v-bind:class="[sortType == 'internalLevel' ? 'sorted ' + (orderType == 1 ? 'ascending' : 'descending') : '']"
+        v-on:click="changeOrder('internalLevel')">BAS</th>
+        <th
+        v-bind:class="[sortType == 'score' ? 'sorted ' + (orderType == 1 ? 'ascending' : 'descending') : '']"
+        v-on:click="changeOrder('score')">ADV</th>
+        <th
+        v-bind:class="[sortType == 'fullComboState' ? 'sorted ' + (orderType == 1 ? 'ascending' : 'descending') : '']"
+        v-on:click="changeOrder('fullComboState')">EXP</th>
+        <th
+        v-bind:class="[sortType == 'rating' ? 'sorted ' + (orderType == 1 ? 'ascending' : 'descending') : '']"
+        v-on:click="changeOrder('rating')">MAS</th>
+      </tr>-->
+    </thead>
+    <tbody>
+      <music-data-row v-for="(music, index) in musics" v-bind:key="music.id" :music="music"></music-data-row>
+    </tbody>
+  </table>
+</main>

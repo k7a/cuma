@@ -1,0 +1,5 @@
+<main>
+  <div class="ui divided list">
+    <user-tune-detail-list-item v-for="(userTuneDetail, index) in sortAndFilteredUserTuneDetails" v-bind:key="userTuneDetail.id" :index="index" :user-tune-detail="userTuneDetail"></user-tune-detail-list-item>
+  </div>
+</main>

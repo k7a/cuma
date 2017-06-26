@@ -1,0 +1,17 @@
+/*******************************
+         Site Overrides
+*******************************/
+
+@colors: green, orange, red, violet, yellow, grey, black;
+.ui.toggle.checkbox {
+    .iterator(@i: length(@colors)) when (@i > 0) {
+        @c: extract(@colors, @i);
+        &.@{c} {
+            input:checked~label {
+                color: @@c;
+                &:before { background-color: @@c !important; }
+            }
+        }
+        .iterator((@i - 1));
+    } .iterator;
+}

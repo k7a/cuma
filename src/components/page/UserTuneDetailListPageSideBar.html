@@ -1,0 +1,141 @@
+<div>
+  <section>
+    <h6 class="divider">Sort</h6>
+    <div class="form-item raised">
+      <select v-model="displayCondition.sortType">
+        <option value="musicName">MusicName</option>
+        <option value="internalLevel">Level</option>
+        <option value="score">Score</option>
+        <option value="rating">Rating</option>
+      </select>
+      <button class="button primary order-toggle-button" @click.stop="displayCondition.orderType = displayCondition.orderType * -1">
+        <i class="material-icons order-icon" :style="{transform: `rotateZ(${displayCondition.orderType == 1 ? 0 : '180deg'})`}">arrow_drop_up</i>
+      </button>
+    </div>
+  </section>
+
+  <section>
+    <h6 class="divider">Difficulty</h6>
+    <div class="form">
+      <div class="form-field">
+        <label class="switch" for="filter-bas">
+          <input type="checkbox" id="filter-bas" class="checkbox" v-model="displayCondition.filterConditions.difficulty[0]">
+          <span class="slider basic">BASIC</span>
+        </label>
+      </div>
+      <div class="form-field">
+        <label class="switch" for="filter-adv">
+          <input type="checkbox" id="filter-adv" class="checkbox" v-model="displayCondition.filterConditions.difficulty[1]">
+          <span class="slider advanced">ADVANCED</span>
+        </label>
+      </div>
+      <div class="form-field">
+        <label class="switch" for="filter-exp">
+          <input type="checkbox" id="filter-exp" class="checkbox" v-model="displayCondition.filterConditions.difficulty[2]">
+          <span class="slider expert">EXPERT</span>
+        </label>
+      </div>
+      <div class="form-field">
+        <label class="switch" for="filter-mas">
+          <input type="checkbox" id="filter-mas" class="checkbox" v-model="displayCondition.filterConditions.difficulty[3]">
+          <span class="slider master">MASTER</span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h6 class="divider">Level</h6>
+    <div class="form-field">
+      <label class="button-number-field-label">Min</label>
+      <div class="form-item raised">
+        <button class="button primary" :disabled="displayCondition.filterConditions.levelMin == 1" @click.stop="displayCondition.decrementLevelMin()">
+          -
+        </button>
+        <input class="input-field level" type="number" min="1" max="13.9" step="0.1" v-model="displayCondition.filterConditions.levelMin">
+        <button class="button primary" :disabled="displayCondition.filterConditions.levelMin == 13.9" @click.stop="displayCondition.incrementLevelMin()">
+          +
+        </button>
+      </div>
+    </div>
+    <div class="form-field">
+      <label class="button-number-field-label">Max</label>
+      <div class="form-item raised">
+        <button class="button primary" :disabled="displayCondition.filterConditions.levelMax == 1" @click.stop="displayCondition.decrementLevelMax()">
+          -
+        </button>
+        <input class="input-field level" type="number" min="1" max="13.9" step="0.1" v-model="displayCondition.filterConditions.levelMax">
+        <button class="button primary" :disabled="displayCondition.filterConditions.levelMax == 13.9" @click.stop="displayCondition.incrementLevelMax()">
+          +
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h6 class="divider">Medal</h6>
+    <div class="form-field">
+      <label class="switch" for="filter-none">
+        <input type="checkbox" id="filter-none" class="checkbox" v-model="displayCondition.filterConditions.fullComboState[0]">
+        <span class="slider none">-</span>
+      </label>
+    </div>
+    <div class="form-field">
+      <label class="switch" for="filter-fc">
+        <input type="checkbox" id="filter-fc" class="checkbox" v-model="displayCondition.filterConditions.fullComboState[1]">
+        <span class="slider fc">FULL COMBO</span>
+      </label>
+    </div>
+    <div class="form-field">
+      <label class="switch" for="filter-aj">
+        <input type="checkbox" id="filter-aj" class="checkbox" v-model="displayCondition.filterConditions.fullComboState[2]">
+        <span class="slider aj">ALL JUSTICE</span>
+      </label>
+    </div>
+    <div class="form-field">
+      <label class="switch" for="filter-ajc">
+        <input type="checkbox" id="filter-ajc" class="checkbox" v-model="displayCondition.filterConditions.fullComboState[3]">
+        <span class="slider ajc">ALL JUSTICE CRITICAL</span>
+      </label>
+    </div>
+  </section>
+
+  <section>
+    <h6 class="divider">Score</h6>
+    <div class="form-field">
+      <label class="button-number-field-label">Min</label>
+      <div class="form-item raised">
+        <button class="button primary" :disabled="displayCondition.filterConditions.scoreMin == 0" @click.stop="displayCondition.decrementScoreMin()">
+          -
+        </button>
+        <input class="input-field score" type="number" min="0" max="1001000" v-model="displayCondition.filterConditions.scoreMin">
+        <button class="button primary" :disabled="displayCondition.filterConditions.scoreMin == 1010000" @click.stop="displayCondition.incrementScoreMin()">
+          +
+        </button>
+      </div>
+    </div>
+    <div class="form-field">
+      <label class="button-number-field-label">Max</label>
+      <div class="form-item raised">
+        <button class="button primary" :disabled="displayCondition.filterConditions.scoreMax == 0" @click.stop="displayCondition.decrementScoreMax()">
+          -
+        </button>
+        <input class="input-field score" type="number" min="0" max="1010000" v-model="displayCondition.filterConditions.scoreMax">
+        <button class="button primary" :disabled="displayCondition.filterConditions.scoreMax == 1010000" @click.stop="displayCondition.incrementScoreMax()">
+          +
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <button class="button" @click.stop="reset()">
+    Cancel
+  </button>
+  <button class="button primary" @click.stop.prevent="apply()" :disabled="!changed">
+    Apply
+  </button>
+  <button class="button secondary" @click.stop="reset()">
+    Reset
+  </button>
+  <!--<a class="item" @click.stop="rightSideBar = !rightSideBar">Hide Sidebar</a>-->
+</div>

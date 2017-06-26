@@ -1,0 +1,49 @@
+<div id="app" v-cloak
+  @mousedown="startDrag" @touchstart="startDrag"
+  @mousemove="onDrag" @touchmove="onDrag"
+  @mouseup="stopDrag" @touchend="stopDrag" @mouseleave="stopDrag"
+  class="mdl-layout mdl-layout--fixed-header"
+>
+  <div class="mdl-layout__drawer" :style="leftSideBarStyle">
+    <header class="drawer-header">CUMA</header>
+    <nav class="mdl-navigation">
+      <router-link class="mdl-navigation__link" to="/score-list">
+        Score List
+      </router-link>
+      <router-link class="mdl-navigation__link" to="/best-rating">
+        Best Rating
+      </router-link>
+      <router-link class="mdl-navigation__link" to="/master-data">
+        Master Data
+      </router-link>
+      <router-link class="mdl-navigation__link" to="/option">
+        Option
+      </router-link>
+    </nav>
+  </div>
+
+  <div v-show="hasRightSideBar" class="mdl-layout__drawer right-drawer" style="padding: 10px;" :style="rightSideBarStyle">
+    <router-view name="rightSideBar"></router-view>
+  </div>
+  <div class="modal-wrapper" v-show="isMasked">
+      <login-modal ref="loginModal"></login-modal>
+  </div>
+
+  <div id="center">
+    <header class="mdl-layout__header" style="display: flex">
+      <div class="mdl-layout__drawer-button"><i class="material-icons">menu</i></div>
+      <div class="mdl-layout__header-row">
+        <span class="mdl-layout-title">{{ $route.name }}</span>
+        <div class="mdl-layout-spacer"></div>
+        <nav class="mdl-navigation mdl-layout--large-screen-only">
+          <a class="mdl-navigation__link" href="">
+            <i class="material-icons">filter_list</i>
+          </a>
+        </nav>
+      </div>
+    </header>
+    <keep-alive>
+      <router-view name="main"></router-view>
+    </keep-alive>
+  </div>
+</div>

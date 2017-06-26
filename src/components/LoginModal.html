@@ -1,0 +1,29 @@
+<div ref="content" class="ui modal segments active" v-show="isVisible">
+  <div
+  v-if="session.state.message"
+  class="ui segment secondary inverted message"
+  v-bind:class="{
+    'orange': session.state.msgLevel == 2,
+    'red': session.state.msgLevel == 3
+  }">
+    <i class="icon"
+    v-bind:class="{
+    'info circle': session.state.msgLevel == 2,
+    'warning sign': session.state.msgLevel == 3
+    }"></i>
+    {{ session.state.message }}
+  </div>
+  <form class="ui segment form" @submit.prevent="login">
+    <div class="field">
+      <label>SEGA ID</label>
+      <input type="text" name="segaId" placeholder="SEGA ID" ref="segaIdInput" v-model="segaId">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Password" v-model="password">
+    </div>
+    <button class="ui button" v-on:click="cancel">Cancel</button>
+    <api-button class="primary" type="submit" :class="isValid ? 'primary' : ''" :action="login" :disabled="!isValid">Login</api-button>
+    <!--<button class="ui button" :class="isValid ? 'primary' : ''" v-on:click="login" :disabled="!isValid">Login</button>-->
+  </form>
+</div>

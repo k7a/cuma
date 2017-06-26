@@ -1,0 +1,7 @@
+<div class="ui dropdown item" @click.self="open">
+  <slot name="label"></slot>
+  <i class="dropdown icon"></i>
+  <div class="menu transition" :class="[isVisible ? 'visible' : 'hidden']">
+    <slot></slot>
+  </div>
+</div>

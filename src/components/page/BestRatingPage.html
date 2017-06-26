@@ -1,0 +1,50 @@
+<main>
+  <h4 v-if="dataStore.reachableRating" class="ui horizontal divider header">
+    <i class="blue info circle icon"></i>Statistics
+  </h4>
+  <div v-if="dataStore.reachableRating" class="mdl-grid" style="margin: 0 0 -1em;">
+    <div class="mdl-cell mdl-cell--6-col">
+      <div class="rainbow statistic-value">
+        {{ dataStore.reachableRating | round(3) || "-" }}
+      </div>
+      <div class="statistic-label">
+        Reachable Rating
+      </div>
+    </div>
+    <div class="mdl-cell mdl-cell--6-col">
+      <div class="rainbow statistic-value">
+        {{ dataStore.bestAverage | round(3) || "-" }}
+      </div>
+      <div class="statistic-label">
+        Best30 Average
+      </div>
+    </div>
+  </div>
+
+  <h4 v-if="dataStore.bestUserTuneDetails.length > 0" class="ui horizontal divider header">
+    <i class="yellow star icon"></i>Best 30
+  </h4>
+  <div>
+    <user-tune-detail-list-item
+      v-for="(userTuneDetail, index) in dataStore.bestUserTuneDetails"
+      v-bind:key="userTuneDetail.id"
+      :index="index"
+      :user-tune-detail="userTuneDetail"
+      :show-internal-level="true"
+      :show-rating-diff="true">
+    </user-tune-detail-list-item>
+  </div>
+  <h4 v-if="dataStore.proposedBestUserTuneDetails.length > 0" class="divider divided-list-divider">
+    <i class="material-icons">arrow_upward</i>Prospective
+  </h4>
+  <div>
+    <user-tune-detail-list-item
+      v-for="(userTuneDetail, index) in dataStore.proposedBestUserTuneDetails"
+      v-bind:key="userTuneDetail.id"
+      :index="index + 30"
+      :user-tune-detail="userTuneDetail"
+      :show-internal-level="true"
+      :show-rating-diff="true">
+    </user-tune-detail-list-item>
+  </div>
+</main>

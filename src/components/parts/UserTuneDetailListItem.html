@@ -1,0 +1,39 @@
+<div class="divided-list-item user-tune-detail" style="display: flex; justify-content: space-around; align-items: center; padding: .5em; line-height: 1em;">
+  <div class="user-tune-detail-index" style="flex-grow: 0; width: 2em; text-align: right; margin: 0 .5em 0 0;">
+    {{ index + 1 }}
+  </div>
+  <div style="flex-grow: 0; width: 60%;">
+    <div class="user-tune-detail-music" style="margin: 0 0 .2em;">
+      <difficulty-label class="horizontal"
+        :difficulty="userTuneDetail.tune.difficulty"
+        :level="userTuneDetail.tune.level">
+      </difficulty-label>
+      <strong v-if="showInternalLevel">
+        <span class="label level left-spaced">
+          {{ userTuneDetail.internalLevel | round(1) || "-" }}
+        </span>
+        <i v-if="userTuneDetail.tune.isProvisional" title="譜面定数が未定義です" class="material-icons">warning</i>
+      </strong>
+      <strong v-else>
+        <level-label class="left-spaced" :level="userTuneDetail.tune.level"></level-label>
+      </strong>
+    </div>
+    <div>
+      {{ userTuneDetail.musicName }}
+    </div>
+  </div>
+  <div class="user-tune-detail-score" style="flex-grow: 0; width: 25%; text-align: right;">
+    <div style="margin: 0 0 .2em;">
+      <full-combo-state-label style="margin: .2em 0 0;" :full-combo-state="userTuneDetail.fullComboState"></full-combo-state-label>
+      <clear-rank-label class="left-spaced" style="margin: .2em 0 0;" :clear-rank="userTuneDetail.clearRank"></clear-rank-label>
+    </div>
+    <div>
+      {{ userTuneDetail.score }}
+    </div>
+    <div>
+      <small>
+        {{ userTuneDetail.rating | round(3) || "-" }}
+        <template v-if="showRatingDiff && !userTuneDetail.isMaxRating">(-{{ userTuneDetail.ratingDiff | round(3) || "-" }})</template>
+      </small>
+    </div>
+  </div>
